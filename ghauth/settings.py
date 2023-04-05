@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import dotenv_values
+
+config = dotenv_values("/etc/secrets/.env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +29,7 @@ SECRET_KEY = 'django-insecure-!!lk@m0vmf&xqngkme!86u%(*wrns_r23ht(6hfmsy0-n9w)3r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -64,8 +67,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
-SOCIAL_AUTH_GITHUB_KEY = os.environ['GH_CLIENT_ID']
-SOCIAL_AUTH_GITHUB_SECRET = os.environ['GH_CLIENT_SECRET']
+SOCIAL_AUTH_GITHUB_KEY = config['GH_CLIENT_ID']
+SOCIAL_AUTH_GITHUB_SECRET = config['GH_CLIENT_SECRET']
 SOCIAL_AUTH_GITHUB_SCOPE = ['repo']
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/success/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/error/'
@@ -100,10 +103,10 @@ WSGI_APPLICATION = 'ghauth.wsgi.application'
 DATABASES = {
   'default': {
     'ENGINE': 'django.db.backends.postgresql',
-    'NAME': os.environ['DATABASE_NAME'],
-    'USER': os.environ['DATABASE_USER'],
-    'PASSWORD': os.environ['DATABASE_PASSWORD'],
-    'HOST': os.environ['DATABASE_HOST'],
+    'NAME': config['DATABASE_NAME'],
+    'USER': config['DATABASE_USER'],
+    'PASSWORD': config['DATABASE_PASSWORD'],
+    'HOST': config['DATABASE_HOST'],
     'PORT': '5432',
   }
 }
